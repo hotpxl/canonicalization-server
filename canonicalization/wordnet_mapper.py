@@ -8,11 +8,14 @@ from __future__ import absolute_import
 from __future__ import print_function
 import cPickle
 import os.path
+import logging
 import nltk
 from nltk.corpus import wordnet
 from .utils import imagenet_helper
 from .utils import wordnet_helper
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 exception_dict = {
     'crust': wordnet.synset('crust.n.02'),
@@ -86,19 +89,23 @@ class WordNetMapper(object):
 
         # Check for exceptions.
         if word in self.common_colors_set:
-            # TODO print '%s is common color, excluded from mapping!' % word
+            logger.info(
+                '{} is in common colors, excluded from mapping.'.format(word))
             return None
         elif word in exception_dict:
-            # TODO print '%s is exception case, direct mapping!' % word
+            logger.info(
+                '{} is in exception case, direct mapping.'.format(word))
             return exception_dict[word]
 
         word = self.lmtzr.lemmatize(word, pos)
         # Check for exceptions.
         if word in self.common_colors_set:
-            # TODO print '%s is common color, excluded from mapping!' % word
+            logger.info(
+                '{} is in common colors, excluded from mapping.'.format(word))
             return None
         elif word in exception_dict:
-            # TODO print '%s is exception case, direct mapping!' % word
+            logger.info(
+                '{} is in exception case, direct mapping.'.format(word))
             return exception_dict[word]
 
         given = wordnet.synsets(word, pos)

@@ -64,9 +64,9 @@ class WordNetMapper(object):
         self.res_path = res_path
         self.lmtzr = nltk.stem.wordnet.WordNetLemmatizer()
         self.in_helper = imagenet_helper.ImageNetHelper(res_path)
-        self.wn_helper = wordnet_helper.WordNetHelper(res_path)
+        self.wn_helper = wordnet_helper.WordNetHelper()
         with open(os.path.join(res_path, 'visualization',
-                               'common_colors.txt')) as f:
+                               'common_colors.p')) as f:
             self.common_colors_set = set(cPickle.load(f))
 
     def map_word(self, word, pos=wordnet.NOUN):
@@ -110,8 +110,8 @@ class WordNetMapper(object):
         if not cap:
             counted.extend(given)
             cap = counted
-            # print 'Cap:', cap
-            selection = [s for s in given if s in cap]
+        # print 'Cap:', cap
+        selection = [s for s in given if s in cap]
 
         # Cross check selection with ImageNet retrieval.
         visualized = [s for s in selection if self.in_helper.in_imagenet(s)]

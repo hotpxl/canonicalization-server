@@ -4,6 +4,8 @@
 
 """Contains helper functions for working with ImageNet."""
 
+from __future__ import absolute_import
+from __future__ import print_function
 import cPickle
 import os.path
 from nltk.corpus import wordnet

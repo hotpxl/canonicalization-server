@@ -4,6 +4,8 @@
 
 """Contains various helper functions for working with WordNet."""
 
+from __future__ import absolute_import
+from __future__ import print_function
 from nltk.corpus import wordnet
 import collections
 

@@ -23,7 +23,7 @@ def canonicalize():
     if not flask.request.json or 'word' not in flask.request.json:
         return (flask.jsonify({'error': 'unrecognized format'}), 400)
     else:
-        res = wordnet_mapper.map_word(flask.request.json['word']).name()
+        res = wordnet_mapper.map_word(flask.request.json['word'])
         return flask.jsonify({'result': res})
 
 if __name__ == '__main__':

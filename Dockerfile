@@ -5,6 +5,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
     apt-get dist-upgrade --yes
 COPY . /canonicalization-server
 RUN cd canonicalization-server; pip install -r requirements.txt
+RUN python -m nltk.downloader -d /usr/share/nltk_data all
 
 EXPOSE 8080
 CMD ["/bin/bash"]

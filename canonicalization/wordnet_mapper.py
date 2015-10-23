@@ -126,5 +126,5 @@ class WordNetMapper(object):
             result = visualized.pop(0)
         else:
             result = None
-        logger.info('result is {}'.format(result))
+        logger.info('result is {}'.format(result.name()))
         return result

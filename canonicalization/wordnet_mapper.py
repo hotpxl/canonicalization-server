@@ -108,23 +108,18 @@ class WordNetMapper(object):
             return exception_dict[word]
 
         given = wordnet.synsets(word, pos)
-        # print 'Given synsets:', given
         counted = [p[0] for p in self.wn_helper.lemma_counter(
             word, pos).most_common()]
-        # print 'Counted synsets:', counted
         cap = [s for s in given if s in counted]
         if not cap:
             counted.extend(given)
             cap = counted
-        # print 'Cap:', cap
         selection = [s for s in given if s in cap]
 
         # Cross check selection with ImageNet retrieval.
         visualized = [s for s in selection if self.in_helper.in_imagenet(s)]
-        # print 'In ImageNet:', selection
         if not visualized:
             visualized = selection
-            # print 'Visualized:', visualized
 
         # Merge textual and visual selection prioritizing visual clues.
         if selection:

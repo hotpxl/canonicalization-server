@@ -8,14 +8,13 @@ from __future__ import absolute_import
 from __future__ import print_function
 import cPickle
 import os.path
-import logging
 import nltk
 from nltk.corpus import wordnet
 from .utils import imagenet_helper
 from .utils import wordnet_helper
+from .utils import log
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = log.get_logger(__name__)
 
 exception_dict = {
     'crust': wordnet.synset('crust.n.02'),

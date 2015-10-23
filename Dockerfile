@@ -1,5 +1,5 @@
 FROM ubuntu:trusty
-RUN apt-get update --yes \
+RUN apt-get update \
     apt-get install --yes python python-dev python-pip \
     apt-get dist-upgrade --yes
 COPY . /canonicalization-server

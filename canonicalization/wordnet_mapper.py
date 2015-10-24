@@ -88,10 +88,10 @@ class WordNetMapper(object):
                 logger.info('result is None')
                 return None
             else:
-                logger.info('result is {}'.format(result.name()))
+                logger.info('result is {}'.format(res.name()))
                 return {
-                    'name': result.name(),
-                    'definition': result.definition()
+                    'name': res.name(),
+                    'definition': res.definition()
                 }
 
         # Preprocess word.

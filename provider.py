@@ -21,8 +21,3 @@ class CanonicalizationProvider(object):
             return result['result']
         else:
             raise ValueError('unrecognized format')
-
-
-if __name__ == '__main__':
-    c = CanonicalizationProvider('http://54.88.99.94:20001/canonicalize')
-    print(c.canonicalize('dog'))

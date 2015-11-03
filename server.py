@@ -19,7 +19,6 @@ app.config.update(
 
 @app.route('/canonicalize', methods=['POST'])
 def canonicalize():
-    app.logger.warning('request with params {}'.format(flask.request))
     if not flask.request.json or 'word' not in flask.request.json:
         return (flask.jsonify({'error': 'unrecognized format'}), 400)
     else:

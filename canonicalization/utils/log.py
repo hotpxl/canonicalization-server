@@ -34,7 +34,7 @@ class _Formatter(logging.Formatter):
     def format(self, record):
         fmt = self.get_color(record.levelno)
         fmt += self.get_label(record.levelno)
-        fmt += '%(asctime)s %(process)d %(filename)s:%(lineno)d:%(funcName)s' + \
+        fmt += '%(asctime)s %(process)d %(filename)s:%(lineno)d:%(funcName)s' \
                ' %(name)s]\x1b[0m'
         fmt += ' %(message)s'
         self._fmt = fmt

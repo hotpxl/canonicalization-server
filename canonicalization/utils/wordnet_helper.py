@@ -26,10 +26,8 @@ class WordNetHelper(object):
         syns = wordnet.synsets(word, pos)
         freq = []
         for s in syns:
-            for l in s.lemmas():
-                count = [s] * l.count()
-                # Extend frequency list by count times the synset ID.
-                freq.extend(count)
+            count = sum([l.count() for l in s.lemmas()])
+            freq.extend([s] * count)
         return collections.Counter(freq)
 
     def synset_to_wordnet_id(self, syn):

@@ -10,6 +10,7 @@ import nltk
 from nltk.corpus import wordnet
 from .utils import log
 from .utils import wordnet_helper
+from .utils import common
 
 logger = log.get_logger(__name__)
 
@@ -29,9 +30,6 @@ exception_dict = {
     'inside': wordnet.synset('inside.a.02'),
     'cloudy': wordnet.synset('cloudy.a.02')
 }
-
-def clean_text(text):
-    return re.sub(r'[^a-zA-Z]+', ' ', text).strip().lower()
 
 def wn_tag(words, pos_tagged):
     tagged = []
@@ -60,7 +58,7 @@ def canonicalize_attribute(text):
                 'name': res.name(),
                 'definition': res.definition()
             }
-    words = clean_text(text).split()
+    words = common.clean_text(text).split()
     pos_tagged = [i[1] for i in nltk.pos_tag(words)]
     # Remove adverbs.
     if 1 < len(words) and words[0] not in exception_dict and pos_tagged[0] == 'RB':

@@ -3,8 +3,6 @@
 """Contains functions to canonicalize attributes."""
 from __future__ import absolute_import
 from __future__ import print_function
-import re
-import collections
 
 import nltk
 from nltk.corpus import wordnet
@@ -31,6 +29,7 @@ exception_dict = {
     'cloudy': wordnet.synset('cloudy.a.02')
 }
 
+
 def wn_tag(words, pos_tagged):
     tagged = []
     pos_collection = [wordnet.NOUN, wordnet.ADJ, wordnet.VERB, wordnet.ADV]
@@ -38,7 +37,8 @@ def wn_tag(words, pos_tagged):
         if 1 < len(words) and pos_tagged[index] == 'IN' and word != 'white':
             tagged.append('prep')
             continue
-        counts = [wordnet_helper.lemma_counter(word, pos=i).most_common() for i in pos_collection]
+        counts = [wordnet_helper.lemma_counter(
+            word, pos=i).most_common() for i in pos_collection]
         counts = [i[0][1] if i else 0 for i in counts]
         highest = max(counts)
         if highest == 0:
@@ -47,17 +47,8 @@ def wn_tag(words, pos_tagged):
             tagged.append(pos_collection[counts.index(highest)])
     return tagged
 
+
 def canonicalize_attribute(text):
-    def pack_definition(res):
-        if res is None:
-            logger.info('result is None')
-            return None
-        else:
-            logger.info('result is {}'.format(res.name()))
-            return {
-                'name': res.name(),
-                'definition': res.definition()
-            }
     words = common.clean_text(text).split()
     pos_tagged = [i[1] for i in nltk.pos_tag(words)]
     # Remove adverbs.
@@ -72,9 +63,10 @@ def canonicalize_attribute(text):
         return None
     if words[0] in exception_dict:
         logger.info('{} is in exceptions'.format(words[0]))
-        return pack_definition(exception_dict[words[0]])
+        return exception_dict[words[0]]
     if words[0][-3:] == 'ing':
-        words[0] = nltk.stem.WordNetLemmatizer().lemmatize(words[0], wordnet.VERB)
+        words[0] = nltk.stem.WordNetLemmatizer(
+        ).lemmatize(words[0], wordnet.VERB)
         pos = wordnet.VERB
     elif pos_tagged[0] == 'IN' and 1 < len(words) and words[0] != 'white':
         # Do not handle prepositions.
@@ -96,13 +88,14 @@ def canonicalize_attribute(text):
             # Otherwise most likely not in WordNet or misspelled
             return None
     given = wordnet.synsets(words[0], pos)
-    counted = [p[0] for p in wordnet_helper.lemma_counter(words[0], pos).most_common()]
+    counted = [p[0]
+               for p in wordnet_helper.lemma_counter(words[0], pos).most_common()]
     cap = [s for s in given if s in counted]
     if not cap:
         counted.expend(given)
         cap = counted
     selection = [s for s in given if s in cap]
     if selection:
-        return pack_definition(selection[0])
+        return selection[0]
     else:
         return None

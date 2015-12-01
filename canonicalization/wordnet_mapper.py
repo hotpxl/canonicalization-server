@@ -82,17 +82,6 @@ class WordNetMapper(object):
         Returns:
             A synset or None if no match was found.
         """
-        def pack_definition(res):
-            if res is None:
-                logger.info('result is None')
-                return None
-            else:
-                logger.info('result is {}'.format(res.name()))
-                return {
-                    'name': res.name(),
-                    'definition': res.definition()
-                }
-
         # Preprocess word.
         word = word.lower().strip().replace(' ', '_')
 
@@ -100,22 +89,22 @@ class WordNetMapper(object):
         if word in self.common_colors_set:
             logger.info(
                 '{} is in common colors, excluded from mapping.'.format(word))
-            return pack_definition(None)
+            return None
         elif word in exception_dict:
             logger.info(
                 '{} is in exception case, direct mapping.'.format(word))
-            return pack_definition(exception_dict[word])
+            return exception_dict[word]
 
         word = self.lmtzr.lemmatize(word, pos)
         # Check for exceptions.
         if word in self.common_colors_set:
             logger.info(
                 '{} is in common colors, excluded from mapping.'.format(word))
-            return pack_definition(None)
+            return None
         elif word in exception_dict:
             logger.info(
                 '{} is in exception case, direct mapping.'.format(word))
-            return pack_definition(exception_dict[word])
+            return exception_dict[word]
 
         given = wordnet.synsets(word, pos)
         counted = [p[0] for p in wordnet_helper.lemma_counter(
@@ -136,4 +125,4 @@ class WordNetMapper(object):
             result = visualized.pop(0)
         else:
             result = None
-        return pack_definition(result)
+        return result

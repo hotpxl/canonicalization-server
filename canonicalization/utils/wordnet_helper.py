@@ -10,7 +10,7 @@ from nltk.corpus import wordnet
 import collections
 
 
-def lemma_counter(self, word, pos=wordnet.NOUN):
+def lemma_counter(word, pos=wordnet.NOUN):
     """Gets frequency counts for a synset.
 
     Args:
@@ -29,7 +29,7 @@ def lemma_counter(self, word, pos=wordnet.NOUN):
     return collections.Counter(freq)
 
 
-def synset_to_wordnet_id(self, syn):
+def synset_to_wordnet_id(syn):
     """Converts synset to WordNet ID.
 
     Args:

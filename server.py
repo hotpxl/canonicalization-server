@@ -7,6 +7,7 @@ from __future__ import print_function
 import os.path
 import flask
 import canonicalization
+from canonicalization.utils import common
 app = flask.Flask(__name__)
 
 res_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'res')
@@ -19,11 +20,21 @@ app.config.update(
 
 @app.route('/canonicalize', methods=['POST'])
 def canonicalize():
-    if not flask.request.json or 'word' not in flask.request.json:
+    handlers = {
+        'object': lambda x: wordnet_mapper.map_word(x),
+        'attribute': canonicalization.attribute_mapper.canonicalize_attribute,
+        'relationship':
+            canonicalization.relationship_mapper.canonicalize_relationship
+    }
+    if (not flask.request.json or
+            'text' not in flask.request.json or
+            'type' not in flask.request.json or
+            flask.request.json['type'] not in handlers):
         return (flask.jsonify({'error': 'unrecognized format'}), 400)
     else:
-        res = wordnet_mapper.map_word(flask.request.json['word'])
+        res = common.pack_definition(
+            handlers[flask.request.json['type']](flask.request.json['text']))
         return flask.jsonify({'result': res})
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

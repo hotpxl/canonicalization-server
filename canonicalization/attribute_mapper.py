@@ -40,7 +40,7 @@ def wn_tag(words, pos_tagged):
         if 1 < len(words) and pos_tagged[index] == 'IN' and word != 'white':
             tagged.append('prep')
             continue
-        counts = [wordnet_helper.WordNetHelper().lemma_counter(word, pos=i).most_common() for i in pos_collection]
+        counts = [wordnet_helper.lemma_counter(word, pos=i).most_common() for i in pos_collection]
         counts = [i[0][1] if i else 0 for i in counts]
         highest = max(counts)
         if highest == 0:
@@ -98,7 +98,7 @@ def canonicalize_attribute(text):
             # Otherwise most likely not in WordNet or misspelled
             return None
     given = wordnet.synsets(words[0], pos)
-    counted = [p[0] for p in wordnet_helper.WordNetHelper().lemma_counter(words[0], pos).most_common()]
+    counted = [p[0] for p in wordnet_helper.lemma_counter(words[0], pos).most_common()]
     cap = [s for s in given if s in counted]
     if not cap:
         counted.expend(given)

@@ -66,7 +66,6 @@ class WordNetMapper(object):
         self.res_path = res_path
         self.lmtzr = nltk.stem.wordnet.WordNetLemmatizer()
         self.in_helper = imagenet_helper.ImageNetHelper(res_path)
-        self.wn_helper = wordnet_helper.WordNetHelper()
         with open(os.path.join(res_path, 'visualization',
                                'common_colors.p')) as f:
             self.common_colors_set = set(cPickle.load(f))
@@ -119,7 +118,7 @@ class WordNetMapper(object):
             return pack_definition(exception_dict[word])
 
         given = wordnet.synsets(word, pos)
-        counted = [p[0] for p in self.wn_helper.lemma_counter(
+        counted = [p[0] for p in wordnet_helper.lemma_counter(
             word, pos).most_common()]
         cap = [s for s in given if s in counted]
         if not cap:

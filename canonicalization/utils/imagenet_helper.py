@@ -16,7 +16,6 @@ class ImageNetHelper(object):
 
     def __init__(self, res_path):
         self.res_path = res_path
-        self.wn_helper = wordnet_helper.WordNetHelper()
         self.offset_synset_dict = None
         self.imagenet_index_dict = None
 
@@ -102,5 +101,5 @@ class ImageNetHelper(object):
         Returns:
             Whether it is in ImageNet.
         """
-        wordnet_id = self.wn_helper.synset_to_wordnet_id(synset)
+        wordnet_id = wordnet_helper.synset_to_wordnet_id(synset)
         return wordnet_id in self.get_imagenet_index()

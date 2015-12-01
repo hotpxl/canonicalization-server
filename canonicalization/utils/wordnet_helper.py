@@ -10,40 +10,39 @@ from nltk.corpus import wordnet
 import collections
 
 
-class WordNetHelper(object):
+def lemma_counter(self, word, pos=wordnet.NOUN):
+    """Gets frequency counts for a synset.
 
-    def lemma_counter(self, word, pos=wordnet.NOUN):
-        """Gets frequency counts for a synset.
+    Args:
+        word: A word to lookup.
+        pos: Part of speech.
 
-        Args:
-            word: A word to lookup.
-            pos: Part of speech.
+    Returns:
+        A collections.Counter for all synsets of the
+        specified word with frequencies annotated.
+    """
+    syns = wordnet.synsets(word, pos)
+    freq = []
+    for s in syns:
+        count = sum([l.count() for l in s.lemmas()])
+        freq.extend([s] * count)
+    return collections.Counter(freq)
 
-        Returns:
-            A collections.Counter for all synsets of the
-            specified word with frequencies annotated.
-        """
-        syns = wordnet.synsets(word, pos)
-        freq = []
-        for s in syns:
-            count = sum([l.count() for l in s.lemmas()])
-            freq.extend([s] * count)
-        return collections.Counter(freq)
 
-    def synset_to_wordnet_id(self, syn):
-        """Converts synset to WordNet ID.
+def synset_to_wordnet_id(self, syn):
+    """Converts synset to WordNet ID.
 
-        Args:
-            syn: A synset.
+    Args:
+        syn: A synset.
 
-        Returns:
-            A unique WordNet ID as used in ImageNet.
-        """
-        pos = str(syn.pos())
-        offset = str(syn.offset())
-        len_offset = len(offset)
-        # Pad offset number with leading zeros.
-        if len_offset < 8:
-            pad = 8 - len_offset
-            offset = '0' * pad + offset
-        return pos + offset
+    Returns:
+        A unique WordNet ID as used in ImageNet.
+    """
+    pos = str(syn.pos())
+    offset = str(syn.offset())
+    len_offset = len(offset)
+    # Pad offset number with leading zeros.
+    if len_offset < 8:
+        pad = 8 - len_offset
+        offset = '0' * pad + offset
+    return pos + offset

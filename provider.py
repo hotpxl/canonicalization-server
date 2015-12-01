@@ -11,8 +11,8 @@ class CanonicalizationProvider(object):
     def __init__(self, server_addr):
         self.server_addr = server_addr
 
-    def canonicalize(self, word):
-        payload = {'word': word}
+    def canonicalize(self, text, t):
+        payload = {'text': text, 'type': t}
         r = requests.post(self.server_addr, json=payload)
         if r.status_code != 200:
             raise ValueError('unrecognized format')

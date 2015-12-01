@@ -92,7 +92,7 @@ def canonicalize_attribute(text):
                for p in wordnet_helper.lemma_counter(words[0], pos).most_common()]
     cap = [s for s in given if s in counted]
     if not cap:
-        counted.expend(given)
+        counted.extend(given)
         cap = counted
     selection = [s for s in given if s in cap]
     if selection:

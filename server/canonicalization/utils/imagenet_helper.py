@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Authors: Oliver Groth, Yutian Li
-
 """Contains helper functions for working with ImageNet."""
 
 from __future__ import absolute_import
@@ -13,7 +12,6 @@ from . import wordnet_helper
 
 
 class ImageNetHelper(object):
-
     def __init__(self, res_path):
         self.res_path = res_path
         self.offset_synset_dict = None
@@ -48,7 +46,8 @@ class ImageNetHelper(object):
                     syns = list(wordnet.all_synsets())
                     offsets_list = [(s.offset(), str(s)) for s in syns]
                     self.offset_synset_dict = dict(offsets_list)
-                    cPickle.dump(self.offset_synset_dict, f,
+                    cPickle.dump(self.offset_synset_dict,
+                                 f,
                                  protocol=cPickle.HIGHEST_PROTOCOL)
         return self.offset_synset_dict
 
@@ -74,8 +73,8 @@ class ImageNetHelper(object):
             The dictionary in the format of `{synset: wordnet_id}`.
         """
         if self.imagenet_index_dict is None:
-            dict_path = os.path.join(
-                self.res_path, 'imagenet', 'imagenet_index.dict')
+            dict_path = os.path.join(self.res_path, 'imagenet',
+                                     'imagenet_index.dict')
             if os.path.isfile(dict_path):
                 with open(dict_path, 'rb') as f:
                     self.imagenet_index_dict = cPickle.load(f)
@@ -83,12 +82,12 @@ class ImageNetHelper(object):
                 with open(dict_path, 'wb') as f:
                     index_list = []
                     for i, wordnet_id in enumerate(self.get_all_wordnet_ids()):
-                        entry = (
-                            str(self.wordnet_id_to_synset(wordnet_id)),
-                            wordnet_id)
+                        entry = (str(self.wordnet_id_to_synset(wordnet_id)),
+                                 wordnet_id)
                         index_list.append(entry)
                     self.imagenet_index_dict = dict(index_list)
-                    cPickle.dump(self.imagenet_index_dict, f,
+                    cPickle.dump(self.imagenet_index_dict,
+                                 f,
                                  protocol=cPickle.HIGHEST_PROTOCOL)
         return self.imagenet_index_dict
 

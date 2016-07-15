@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Authors: Oliver Groth, Yutian Li
-
 """Contains various helper functions for working with WordNet."""
 
 from __future__ import absolute_import

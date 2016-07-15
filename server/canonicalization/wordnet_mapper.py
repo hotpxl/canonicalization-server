@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Authors: Oliver Groth, Yutian Li
-
 """Contains functions to map terms to WordNet and ImageNet entities."""
 
 from __future__ import absolute_import
@@ -56,7 +55,6 @@ exception_dict = {
 
 
 class WordNetMapper(object):
-
     def __init__(self, res_path):
         """Initializer.
 
@@ -91,8 +89,8 @@ class WordNetMapper(object):
                 '{} is in common colors, excluded from mapping.'.format(word))
             return None
         elif word in exception_dict:
-            logger.info(
-                '{} is in exception case, direct mapping.'.format(word))
+            logger.info('{} is in exception case, direct mapping.'.format(
+                word))
             return exception_dict[word]
 
         word = self.lmtzr.lemmatize(word, pos)
@@ -102,13 +100,14 @@ class WordNetMapper(object):
                 '{} is in common colors, excluded from mapping.'.format(word))
             return None
         elif word in exception_dict:
-            logger.info(
-                '{} is in exception case, direct mapping.'.format(word))
+            logger.info('{} is in exception case, direct mapping.'.format(
+                word))
             return exception_dict[word]
 
         given = wordnet.synsets(word, pos)
-        counted = [p[0] for p in wordnet_helper.lemma_counter(
-            word, pos).most_common()]
+        counted = [
+            p[0] for p in wordnet_helper.lemma_counter(word, pos).most_common()
+        ]
         cap = [s for s in given if s in counted]
         if not cap:
             counted.extend(given)

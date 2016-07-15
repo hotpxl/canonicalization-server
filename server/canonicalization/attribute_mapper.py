@@ -37,8 +37,8 @@ def wn_tag(words, pos_tagged):
         if 1 < len(words) and pos_tagged[index] == 'IN' and word != 'white':
             tagged.append('prep')
             continue
-        counts = [wordnet_helper.lemma_counter(
-            word, pos=i).most_common() for i in pos_collection]
+        counts = [wordnet_helper.lemma_counter(word, pos=i).most_common()
+                  for i in pos_collection]
         counts = [i[0][1] if i else 0 for i in counts]
         highest = max(counts)
         if highest == 0:
@@ -52,10 +52,12 @@ def canonicalize_attribute(text):
     words = common.clean_text(text).split()
     pos_tagged = [i[1] for i in nltk.pos_tag(words)]
     # Remove adverbs.
-    if 1 < len(words) and words[0] not in exception_dict and pos_tagged[0] == 'RB':
+    if 1 < len(words) and words[0] not in exception_dict and pos_tagged[
+            0] == 'RB':
         words.pop(0)
     # Remove common modifiers.
-    if 1 < len(words) and (words[0] == 'light' or words[0] == 'dark' or words[0] == 'not'):
+    if 1 < len(words) and (words[0] == 'light' or words[0] == 'dark' or
+                           words[0] == 'not'):
         words.pop(0)
 
     pos = None
@@ -65,8 +67,8 @@ def canonicalize_attribute(text):
         logger.info('{} is in exceptions'.format(words[0]))
         return exception_dict[words[0]]
     if words[0][-3:] == 'ing':
-        words[0] = nltk.stem.WordNetLemmatizer(
-        ).lemmatize(words[0], wordnet.VERB)
+        words[0] = nltk.stem.WordNetLemmatizer().lemmatize(words[0],
+                                                           wordnet.VERB)
         pos = wordnet.VERB
     elif pos_tagged[0] == 'IN' and 1 < len(words) and words[0] != 'white':
         # Do not handle prepositions.
@@ -88,8 +90,9 @@ def canonicalize_attribute(text):
             # Otherwise most likely not in WordNet or misspelled
             return None
     given = wordnet.synsets(words[0], pos)
-    counted = [p[0]
-               for p in wordnet_helper.lemma_counter(words[0], pos).most_common()]
+    counted = [
+        p[0] for p in wordnet_helper.lemma_counter(words[0], pos).most_common()
+    ]
     cap = [s for s in given if s in counted]
     if not cap:
         counted.extend(given)

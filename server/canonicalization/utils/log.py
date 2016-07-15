@@ -4,7 +4,6 @@ import logging
 
 
 class _Formatter(logging.Formatter):
-
     def __init__(self):
         datefmt = '%m%d %H:%M:%S'
         super(_Formatter, self).__init__(datefmt=datefmt)
@@ -39,6 +38,7 @@ class _Formatter(logging.Formatter):
         fmt += ' %(message)s'
         self._fmt = fmt
         return super(_Formatter, self).format(record)
+
 
 _handler = logging.StreamHandler()
 _handler.setFormatter(_Formatter())

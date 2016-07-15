@@ -14,8 +14,8 @@ def canonicalize_relationship(text):
     freq = []
     for word in words:
         for pos in [wordnet.VERB, wordnet.ADV]:
-            freq.extend(wordnet_helper.lemma_counter(
-                word, pos=pos).most_common())
+            freq.extend(wordnet_helper.lemma_counter(word,
+                                                     pos=pos).most_common())
     if freq:
         return max(freq, key=lambda x: x[1])[0]
     else:

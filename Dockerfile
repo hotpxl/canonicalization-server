@@ -6,7 +6,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 COPY ./server /canonicalization-server
 WORKDIR /canonicalization-server
 RUN pip install -r requirements.txt
-RUN yes | python -m nltk.downloader -d /usr/share/nltk_data all
+COPY ./nltk_data /usr/share/nltk_data
 
 EXPOSE 80
 CMD ["/canonicalization-server/start-server.sh"]

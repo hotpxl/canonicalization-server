@@ -4,6 +4,10 @@ API providing canonicalization service.
 
 ## Build
 
+[NLTK](http://www.nltk.org/) data is needed. Just run ```./get-nltk-data.sh```.
+
+Run the following command to build the Docker image.
+
 ```bash
 docker build -t canonicalization-server .
 ```

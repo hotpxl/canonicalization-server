@@ -5,6 +5,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 import nltk
+import repoze.lru
 from nltk.corpus import wordnet
 from .utils import log
 from .utils import wordnet_helper
@@ -48,6 +49,7 @@ def wn_tag(words, pos_tagged):
     return tagged
 
 
+@repoze.lru.lru_cache(4096)
 def canonicalize_attribute(text):
     words = common.clean_text(text).split()
     pos_tagged = [i[1] for i in nltk.pos_tag(words)]

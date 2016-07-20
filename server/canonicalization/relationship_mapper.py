@@ -4,11 +4,13 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
+import repoze.lru
 from nltk.corpus import wordnet
 from .utils import wordnet_helper
 from .utils import common
 
 
+@repoze.lru.lru_cache(4096)
 def canonicalize_relationship(text):
     words = common.clean_text(text).split()
     freq = []
